@@ -1,6 +1,7 @@
 package nam.ecom.ecomweb.test.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,4 +25,13 @@ public class ProductService {
     }
 
     // public Product
+    public Product findById(int id) {
+        Optional<Product> result = productsRepository.findById(id);
+        return result.orElse(null);
+    }
+
+    // Save or update a product
+    public void save(Product product) {
+        productsRepository.save(product);
+    }
 }
