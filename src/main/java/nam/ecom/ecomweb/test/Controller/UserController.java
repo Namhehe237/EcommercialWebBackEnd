@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import nam.ecom.ecomweb.test.Entity.User;
 import nam.ecom.ecomweb.test.Service.UserService;
 
-@CrossOrigin("http://localhost:3000")  // Allowing React frontend to make requests
+@CrossOrigin("http://localhost:3000") 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -26,6 +26,9 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
         try {
+            User tmp = user;
+            System.out.println(tmp);
+            System.out.println(tmp.toString());
             userService.registerUser(user);
             return ResponseEntity.ok("User registered successfully");
         } catch (IllegalArgumentException e) {
@@ -34,25 +37,20 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User user) {
+    public ResponseEntity<String> loginUser(@RequestBody User user) {
         try {
-            User foundUser = userService.findUserByEmail(user.getEmail());
-            if (foundUser != null) {
-                // Checking password match
-                String checkPassword = foundUser.getPassword();
-                if (checkPassword.equals(user.getPassword())) {
-                    // If credentials are correct, send "OK"
-                    return ResponseEntity.ok("OK");
-                } else {
-                    // If password doesn't match, return error
-                    return ResponseEntity.status(404).body("Incorrect password");
-                }
+            boolean isAuthenticated = userService.authenticateUser(user);
+            if (isAuthenticated) {
+                return ResponseEntity.ok("Login successful");
             } else {
-                // If user is not found, return error
-                return ResponseEntity.status(404).body("User not found");
+                return ResponseEntity.status(401).body("Invalid username or password");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("An error occurred while checking login");
+            e.printStackTrace();
+            System.out.println(user);
+            System.out.println(user.toString());
+            return ResponseEntity.status(500).body("An error occurred: " + e.getMessage());
         }
     }
+
 }

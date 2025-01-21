@@ -2,6 +2,7 @@ package nam.ecom.ecomweb.test.Config;
 
 
 import nam.ecom.ecomweb.test.Entity.Product;
+import nam.ecom.ecomweb.test.Entity.User;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -20,6 +21,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         repositoryRestConfiguration.exposeIdsFor(Product.class);
        
         disableHttpMethods(Product.class,repositoryRestConfiguration,theUnsupportedActions);
+        disableHttpMethods(User.class, repositoryRestConfiguration, theUnsupportedActions);
 
         corsRegistry.addMapping(repositoryRestConfiguration.getBasePath()+"/**").allowedOrigins(theAllowOrigins);
     }

@@ -1,5 +1,7 @@
 package nam.ecom.ecomweb.test.Service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,4 +32,15 @@ public class UserService {
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
     }
+
+    public boolean authenticateUser(User user) {
+        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser.isPresent() && existingUser.get().getPassword().equals(user.getPassword())) {
+            return true;
+        }
+        return false;
+    }
+    
+
+    
 }
