@@ -2,6 +2,7 @@ package nam.ecom.ecomweb.test.Controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import nam.ecom.ecomweb.test.Entity.Review;
@@ -28,5 +29,13 @@ public class ReviewController {
     @GetMapping("/reviews/product/{productId}")
     public List<Review> getReviewsByProductId(@PathVariable Long productId) {
         return reviewService.getReviewsByProductId(productId);
+    }
+
+    @PostMapping("/reviews/addReview")
+    public ResponseEntity<Review> addReview(@RequestBody Review review) {
+
+        System.out.println(review.toString());
+        Review savedReview = reviewService.addNewReview(review);
+        return ResponseEntity.ok(savedReview);
     }
 }
