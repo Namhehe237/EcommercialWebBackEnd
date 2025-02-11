@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nam.ecom.ecomweb.test.Entity.User;
 import nam.ecom.ecomweb.test.Service.UserService;
@@ -24,10 +25,9 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
+    public ResponseEntity<String> registerUser(@Valid @RequestBody User user) {
         try {
             User tmp = user;
-            System.out.println(tmp);
             System.out.println(tmp.toString());
             userService.registerUser(user);
             return ResponseEntity.ok("User registered successfully");

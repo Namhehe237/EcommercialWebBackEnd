@@ -26,9 +26,11 @@ public class ProductService {
         return productsRepository.findAll(pageable);
     }
 
+    public List<Product> findByCategory(String category){
+        return productsRepository.findByCategory(category);
+    }
 
     
-
     public List<Product> findAll(){
         return productsRepository.findAll();
     }
