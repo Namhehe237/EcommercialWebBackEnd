@@ -62,12 +62,25 @@ public class UserController {
     public ResponseEntity<String>  sendEmailToResetPassword(@RequestBody String emailString){
         try{
             User user = userService.findUserByEmail(emailString);
-            if (user.equals(null)) return ResponseEntity.status(404).body("Email not found");
+            if (user == null) return ResponseEntity.status(404).body("Email not found");
 
+
+            System.out.println(user.toString());
+            String newPass = userService.generateRandomString();
+            System.out.println("1");
+
+            user.setPassword(newPass);
+
+            System.out.println(user.toString());
+            // System.out.println("1.5");
+
+            userService.updateNewPassword(user);
+
+            System.out.println("2");
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(emailString);
             message.setSubject("New password is coming");
-            message.setText("The new password is : Nam123");
+            message.setText("The new password is : "+newPass);
 
             javaMailSender.send(message);
             
