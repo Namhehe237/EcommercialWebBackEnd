@@ -1,5 +1,9 @@
 package nam.ecom.ecomweb.test.Controller;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -43,20 +47,31 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody User user) {
-        try {
-            boolean isAuthenticated = userService.authenticateUser(user);
-            if (isAuthenticated) {
-                return ResponseEntity.ok("Login successful");
-            } else {
-                return ResponseEntity.status(401).body("Invalid username or password");
+  @PostMapping("/login")
+public ResponseEntity<?> loginUser(@RequestBody User user) {
+    try {
+        boolean isAuthenticated = userService.authenticateUser(user);
+        if (isAuthenticated) {
+            User returnUser = userService.findUserByEmail(user.getEmail());
+
+            if (returnUser == null) {
+                return ResponseEntity.status(404).body(Collections.singletonMap("message", "User not found"));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("An error occurred: " + e.getMessage());
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("id", returnUser.getId());
+            response.put("username", returnUser.getUsername());
+            response.put("email", returnUser.getEmail());
+
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(401).body(Collections.singletonMap("message", "Invalid username or password"));
         }
+    } catch (Exception e) {
+        return ResponseEntity.status(500).body(Collections.singletonMap("error", "An error occurred: " + e.getMessage()));
     }
+}
+
 
     @PostMapping("send-mail")
     public ResponseEntity<String>  sendEmailToResetPassword(@RequestBody String emailString){

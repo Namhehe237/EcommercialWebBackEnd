@@ -8,7 +8,7 @@ public class EcomwebApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EcomwebApplication.class, args);
-		// nam@gmail.com
+		
 	}
 
 }
