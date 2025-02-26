@@ -26,7 +26,7 @@ public class UserService {
     private static final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
     private static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final String DIGITS = "0123456789";
-    private static final String SPECIAL_CHARACTERS = "@$!%*?&"; 
+    private static final String SPECIAL_CHARACTERS = "@$!%*?&";
     private static final String ALL_CHARACTERS = LOWERCASE + UPPERCASE + DIGITS + SPECIAL_CHARACTERS;
     private static final SecureRandom RANDOM = new SecureRandom();
 
@@ -101,6 +101,16 @@ public class UserService {
             array[index] = temp;
         }
         return new String(array);
+    }
+
+    public void changePassword(String email, String oldPassword, String newPassword) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if(!oldPassword.equals(user.getPassword())) throw new RuntimeException("Old password is incorrect");
+
+        user.setPassword(newPassword);
+        userRepository.save(user);
     }
 
 }
