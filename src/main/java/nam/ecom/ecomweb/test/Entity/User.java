@@ -38,9 +38,5 @@ public class User {
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$", message = "Password must contain at least one uppercase letter and one special character")
     private String password;
 
-    public User orElseThrow(Object object) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
-    }
-
+ 
 }

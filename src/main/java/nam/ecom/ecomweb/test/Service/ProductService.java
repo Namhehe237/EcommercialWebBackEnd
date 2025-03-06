@@ -41,6 +41,7 @@ public class ProductService {
         return result.orElse(null);
     }
 
+    
     // Save or update a product
     public void save(Product product) {
         productsRepository.save(product);
