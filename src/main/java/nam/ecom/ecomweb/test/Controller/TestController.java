@@ -1,4 +1,4 @@
-package nam.ecom.ecomweb.test.Config;
+package nam.ecom.ecomweb.test.Controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

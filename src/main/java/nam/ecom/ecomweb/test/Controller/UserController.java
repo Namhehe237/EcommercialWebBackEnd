@@ -40,6 +40,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody User user) {
+        System.out.println(user.toString());
         try {
             userService.registerUser(user);
             return ResponseEntity.ok("User registered successfully");
@@ -50,6 +51,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
+        
         try {
             boolean isAuthenticated = userService.authenticateUser(user);
             if (isAuthenticated) {
